@@ -8,7 +8,7 @@
 //! Each WebSocket stream implements the required `Stream` and `Sink` traits,
 //! so the socket is just a stream of messages coming in and going out.
 
-#![deny(missing_docs, unused_must_use, unused_mut, unused_imports, unused_import_braces)]
+#![deny(missing_docs, unused_must_use, unused_mut, unused_import_braces)]
 
 pub use tungstenite;
 
@@ -241,6 +241,14 @@ impl<S> WebSocketStream<S> {
         S: AsyncRead + AsyncWrite + Unpin,
     {
         self.inner.get_mut().get_mut()
+    }
+
+    /// Returns the inner stream.
+    pub fn into_inner(self) -> S
+    where
+        S: AsyncRead + AsyncWrite + Unpin,
+    {
+        self.inner.into_inner().into_inner()
     }
 
     /// Returns a reference to the configuration of the tungstenite stream.
